@@ -1,6 +1,6 @@
 import zipfile as z
 import os
-from sys import argv
+from sys import argv, stderr
 import tempfile
 
 cwd = os.getcwd()
@@ -59,11 +59,24 @@ def get_commit(box, number):
         os.remove(t)
 
 def main():
-    if len(argv) >= 2:
-        if argv[1] == commands[0]:
-            new(argv[2], argv[3])
-        if argv[1] == commands[1]:
-            get_commit(argv[2], argv[3])
+    args = []
+    x = ""
+    for i in range(len(argv)):
+        if argv[i].startswith('"'):
+            for i in argv[i:]:
+                x += argv[i]
+                if i.endswith('"'):
+                    args.append(x)
+                    break
+        else:
+            args.append(argv[i])
+    if len(args) >= 2:
+        if args[1] == commands[0]:
+            new(args[2], args[3])
+        if args[1] == commands[1]:
+            get_commit(args[2], args[3])
+    else:
+        print("Gib needs more arguments to work", file=stderr)
 
 if __name__ == "__main__":
     main()
