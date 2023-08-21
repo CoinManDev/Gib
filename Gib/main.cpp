@@ -9,6 +9,7 @@
     const char* rootDir = "C:";
 #else
     const char* currentOS = "";
+    const char* rootDir = "";
 #endif
 
 using namespace std;
